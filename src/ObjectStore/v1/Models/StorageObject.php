@@ -175,13 +175,14 @@ class StorageObject extends OperatorResource implements Creatable, Deletable, Ha
     /**
      * {@inheritdoc}
      */
-    public function mergeMetadata(array $metadata)
+    public function mergeMetadata(array $metadata, array $headers = [])
     {
         $options = [
             'containerName' => $this->containerName,
             'name'          => $this->name,
             'metadata'      => array_merge($metadata, $this->getMetadata()),
         ];
+        $options += $headers;
 
         $response       = $this->execute($this->api->postObject(), $options);
         $this->metadata = $this->parseMetadata($response);
